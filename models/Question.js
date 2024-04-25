@@ -4,7 +4,10 @@ const questionSchema = new mongoose.Schema(
   {
     question: {
       type: {
-        question: String,
+        question: {
+          type: String,
+          unique: true,
+        },
         image: {
           type: String,
           required: false,
@@ -41,5 +44,7 @@ const questionSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+questionSchema.index({ "question.question": "text" });
 
 export default mongoose.model("Question", questionSchema);
