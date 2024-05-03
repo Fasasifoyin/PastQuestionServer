@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  countQuestionPerCourse,
   createQuestion,
   deleteQuestion,
   editQuestion,
@@ -14,5 +15,6 @@ router.post("/create", createQuestion);
 router.get("/search", searchQuestion);
 router.delete("/delete", deleteQuestion);
 router.patch("/edit", editQuestion);
+router.get("/count", countQuestionPerCourse)
 
 export default router;

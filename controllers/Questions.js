@@ -230,3 +230,28 @@ export const editQuestion = async (req, res, next) => {
     next(error);
   }
 };
+
+export const countQuestionPerCourse = async (req, res, next) => {
+  try {
+    const questionCounts = await Question.aggregate([
+      {
+        $group: {
+          _id: { course: "$course", topic: "$topic" },
+          totalQuestions: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.course",
+          totalQuestionsInCourse: { $sum: "$totalQuestions" },
+          topics: {
+            $push: { topic: "$_id.topic", totalQuestions: "$totalQuestions" },
+          },
+        },
+      },
+    ]);
+    res.status(200).json(questionCounts);
+  } catch (error) {
+    next(error);
+  }
+};
